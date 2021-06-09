@@ -10,6 +10,7 @@
       getTogglProjects,
       resetTasks,
       log,
+      getProjectName,
     } = this.common;
 
     const trackingTag = flattenedTags.find((t) => t.name === TRACKING_TAG_NAME);
@@ -30,7 +31,7 @@
       }
 
       const task = selection.tasks[0];
-      const projectName = task.containingProject && task.containingProject.name;
+      const projectName = getProjectName(task);
 
       const toggleProject = (projects || []).find(
         (p) => p.name.trim().toLowerCase() === projectName.trim().toLowerCase(),

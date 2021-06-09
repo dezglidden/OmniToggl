@@ -11,6 +11,8 @@
   const TRACKING_NAME_PREFIX = '🎯';
 
   const TOGGL_URL = 'https://api.track.toggl.com/api/v8';
+  // Include the parent folder for the following specified projects
+  const INCLUDE_PARENT_FOLDER = [];
 
   // the following is a pollyfill for base64 taken from https://github.com/MaxArt2501/base64-js/blob/master/base64.js
   function btoa(stringParam) {
@@ -185,6 +187,21 @@
       }
       task.removeTag(trackingTag);
     });
+  };
+
+  dependencyLibrary.getProjectName = (task) => {
+    let containingProject = task.containingProject || '';
+    let projectName = containingProject.name || '';
+    let parentFolder = containingProject.parentFolder.name || '';
+
+    if (
+      INCLUDE_PARENT_FOLDER.indexOf(projectName) >= 0 &&
+      parentFolder !== ''
+    ) {
+      projectName = `${parentFolder} - ${projectName}`;
+    }
+    console.log('projectName', projectName);
+    return projectName;
   };
 
   dependencyLibrary.config = config;
